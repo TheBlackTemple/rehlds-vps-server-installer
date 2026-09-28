@@ -124,8 +124,8 @@ This just automates installing other people's work. All credit to the
 actual projects:
 
 - [LinuxGSM](https://linuxgsm.com/)
-- [ReHLDS](https://github.com/rehlds/ReGameDLL_CS)
-- [ReGameDLL_CS](https://github.com/rehlds/rehlds)
+- [ReHLDS](https://github.com/rehlds/rehlds)
+- [ReGameDLL_CS](https://github.com/rehlds/ReGameDLL_CS)
 - [Metamod-R](https://github.com/rehlds/metamod-r)
 - [AMX Mod X](https://www.amxmodx.org/)
 - [ReAPI](https://github.com/rehlds/ReAPI)
