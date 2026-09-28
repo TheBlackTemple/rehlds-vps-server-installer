@@ -29,22 +29,50 @@ work, but I haven't personally verified it.
 - `env.conf` — config values both scripts source (paths, ports, pinned
   versions, asset-matching regexes). Fill this in before running anything.
 
+## Layout
+
+Put everything — `bootstrap-root.sh`, `install-server.sh`, `wrapper-update.sh`,
+`env.conf`, and the `.cs16-installer-local/` asset folder — directly in the
+**service user's home directory** (the same place `./csserver` ends up
+after LinuxGSM bootstraps). All three scripts locate `env.conf` next to
+themselves (`SCRIPT_DIR`), so this only works if they're kept flat in one
+folder, not split across directories:
+
+```
+~/                                   (service user home, e.g. /home/csserver)
+│   bootstrap-root.sh
+│   env.conf
+│   install-server.sh
+│   wrapper-update.sh
+│
+└───.cs16-installer-local/
+        amxmodx-<version>-base-linux.tar.gz
+        metamod-bin-<version>.zip
+        reapi-bin-<version>.zip
+        regamedll-bin-<version>.zip
+        rehlds-bin-<version>.zip
+        reunion-<version>.zip
+```
+
 ## Order to run things
 
 1. `sudo ./bootstrap-root.sh` (root)
-2. Populate `LOCAL_ASSET_DIR` (see below)
-3. `su - <service_user>`, then `./install-server.sh` (non-root)
+2. Populate `.cs16-installer-local/` (see below)
+3. `su - <service_user>`, then `./install-server.sh` from that home dir (non-root)
 
 `install-server.sh` assumes step 1 already happened — it doesn't check for
 it, it'll just fail partway through with a generic LinuxGSM "missing
 dependencies" error if you skip straight to it.
 
-## Populating LOCAL_ASSET_DIR
+## Populating .cs16-installer-local
 
 Downloads are stubbed out — nothing is fetched automatically. Before running
 `install-server.sh`, manually download each component's release archive
-yourself and drop it into `LOCAL_ASSET_DIR` (default:
-`~/.cs16-installer-local`, overridable via env var or `env.conf`).
+yourself and drop it into `.cs16-installer-local/` in the home directory
+(this is `LOCAL_ASSET_DIR`, overridable via env var or `env.conf` if you
+want it elsewhere). We include them in the repo, but **we recommend you
+to download the latest version yourself from the official sources** since
+we will not keep this up to date.
 
 Each file's name just needs to match that component's `*_ASSET_REGEX` from
 `env.conf`, and its version should match the corresponding `*_PINNED_TAG`.
@@ -96,12 +124,12 @@ This just automates installing other people's work. All credit to the
 actual projects:
 
 - [LinuxGSM](https://linuxgsm.com/)
-- [ReHLDS](https://github.com/rehlds/ReHLDS)
-- [ReGameDLL_CS](https://github.com/s1lentq/ReGameDLL_CS)
-- [Metamod-R](https://github.com/theasvel/metamod-r)
+- [ReHLDS](https://github.com/rehlds/ReGameDLL_CS)
+- [ReGameDLL_CS](https://github.com/rehlds/rehlds)
+- [Metamod-R](https://github.com/rehlds/metamod-r)
 - [AMX Mod X](https://www.amxmodx.org/)
-- [ReAPI](https://github.com/s1lentq/reapi)
-- [Reunion](https://github.com/theasvel/reunion)
+- [ReAPI](https://github.com/rehlds/ReAPI)
+- [Reunion](https://github.com/rehlds/ReUnion)
 
 ## License
 
